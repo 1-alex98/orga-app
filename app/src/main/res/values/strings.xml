@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Group Orga App</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="register">Register instead</string>
+    <string name="repeat_email">repeat email</string>
+    <string name="repeat_password">repeat password</string>
+    <string name="username">username</string>
+</resources>
