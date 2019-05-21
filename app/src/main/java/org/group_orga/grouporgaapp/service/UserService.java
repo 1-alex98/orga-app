@@ -1,5 +1,7 @@
 package org.group_orga.grouporgaapp.service;
 
+import android.util.Log;
+
 public class UserService {
     private static UserService instance;
 
@@ -11,6 +13,10 @@ public class UserService {
     }
 
     public void login(String email, String password) {
-        //TODO:login
+        Log.i("Login", "Login request with " + email + " " + password);
+    }
+
+    public void register(String email, String password, String username) {
+        Log.i("Login", "Register request with " + email + " " + password + " " + username);
     }
 }
