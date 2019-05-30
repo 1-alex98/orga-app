@@ -9,4 +9,7 @@
     <string name="passwords_dont_match">Passwords missmatch</string>
     <string name="emails_dont_match">Emails missmatch</string>
     <string name="title_activity_groups">GroupsActivity</string>
+    <string name="api_error_title">Error</string>
+    <string name="api_error_message">API returned %d and error text: %s</string>
+    <string name="cancel">cancel</string>
 </resources>
