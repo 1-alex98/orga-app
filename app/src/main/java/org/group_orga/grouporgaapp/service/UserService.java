@@ -2,6 +2,12 @@ package org.group_orga.grouporgaapp.service;
 
 import android.util.Log;
 
+import org.group_orga.grouporgaapp.api.OrgaAPIAccessor;
+import org.group_orga.grouporgaapp.api.oauth.TokenResponse;
+
+import java8.util.concurrent.CompletableFuture;
+
+
 public class UserService {
     private static UserService instance;
 
@@ -12,8 +18,8 @@ public class UserService {
         return instance;
     }
 
-    public void login(String email, String password) {
-        Log.i("Login", "Login request with " + email + " " + password);
+    public CompletableFuture<TokenResponse> login(String email, String password) {
+        return OrgaAPIAccessor.getInstance().login(email,password);
     }
 
     public void register(String email, String password, String username) {
