@@ -47,16 +47,12 @@ public class LoginScreenActivity extends AppCompatActivity {
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
         UserService.getInstance().login(email, password)
-                .exceptionally(UIUtil.defaultAPIErrorHandler(this))
-                .thenAccept(tokenResponse -> {
-                    if (tokenResponse != null) {
-                        runOnUiThread(() -> {
-                            Intent intent = new Intent(this, GroupsActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                            finish();
-                        });
-                    }
-                });
+                .thenAccept(user -> runOnUiThread(() -> {
+                    Intent intent = new Intent(this, GroupsActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }))
+                .exceptionally(UIUtil.defaultAPIErrorHandler(this));
     }
 }

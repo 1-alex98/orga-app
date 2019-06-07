@@ -1,9 +1,16 @@
 package org.group_orga.grouporgaapp.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.jasminb.jsonapi.ResourceConverter;
+import com.github.jasminb.jsonapi.retrofit.JSONAPIConverterFactory;
+
+import org.group_orga.grouporgaapp.api.data.Account;
+import org.group_orga.grouporgaapp.api.data.GroupOfUsers;
 import org.group_orga.grouporgaapp.api.oauth.OrgaAPIOauthTemplate;
 import org.group_orga.grouporgaapp.api.oauth.TokenResponse;
 
 import java.io.IOException;
+import java.util.List;
 
 import java8.util.concurrent.CompletableFuture;
 import okhttp3.OkHttpClient;
@@ -43,10 +50,10 @@ public class OrgaAPIAccessor {
                 });
     }
 
-    private <U> CompletableFuture<U> executeQueryAsync(Call<U> call) {
+    private <T> CompletableFuture<T> executeQueryAsync(Call<T> call) {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                Response<U> response = call.execute();
+                Response<T> response = call.execute();
                 if(!response.isSuccessful()){
                     throw new APIException(response);
                 }
@@ -65,23 +72,39 @@ public class OrgaAPIAccessor {
             return chain.proceed(request);
         });
 
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.findAndRegisterModules();
+
+        //TODO: find a way to scan the package for classes instead of adding them manually
+        ResourceConverter converter = new ResourceConverter(mapper,Account.class,GroupOfUsers.class);
+        JSONAPIConverterFactory factory = new JSONAPIConverterFactory(converter);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.group-orga.org/")
                 .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(factory)
                 .client(httpClient.build())
                 .build();
 
         service = retrofit.create(OrgaAPITemplate.class);
     }
 
-    private void assertloggedIn(){
+    private void assertLoggedIn(){
         if(service==null){
             throw new IllegalStateException("This operation needs you to be logged in but you are not.");
         }
     }
 
+    public CompletableFuture<List<GroupOfUsers>> getGroupsOfUsersWithFilter(String filter) {
+        assertLoggedIn();
+        return executeQueryAsync(service.getGroupsOfUsers(filter));
+    }
+
     public CompletableFuture<String> getVersion() {
         return executeQueryAsync(service.getVersion());
+    }
+
+    public CompletableFuture<Account> getMe() {
+        return executeQueryAsync(service.getMe());
     }
 
     public static class APIException extends RuntimeException {

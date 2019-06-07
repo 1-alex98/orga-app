@@ -23,6 +23,8 @@ android {
 }
 
 dependencies {
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.7'
+    implementation 'com.github.jasminb:jsonapi-converter:0.9'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:27.1.1'

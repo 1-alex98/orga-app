@@ -2,28 +2,31 @@ package org.group_orga.grouporgaapp.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import org.group_orga.grouporgaapp.R;
-import org.group_orga.grouporgaapp.api.OrgaAPIAccessor;
+import org.group_orga.grouporgaapp.api.data.GroupOfUsers;
+import org.group_orga.grouporgaapp.service.GroupService;
 import org.group_orga.grouporgaapp.util.UIUtil;
-
-import java8.util.concurrent.CompletableFuture;
 
 public class GroupsActivity extends AppCompatActivity {
 
-    private TextView versionTextView;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groups);
 
-        versionTextView = findViewById(R.id.versionTextView);
-        CompletableFuture<String> version = OrgaAPIAccessor.getInstance().getVersion();
-        version.thenAccept(s -> runOnUiThread(() -> versionTextView.setText(s)))
-                .exceptionally(UIUtil.defaultAPIErrorHandler(this));
+        listView= findViewById(R.id.groupListView);
 
+        ArrayAdapter<GroupOfUsers> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1);
+        listView.setAdapter(adapter);
+
+        GroupService.getInstance().getMyGroups()
+                .thenAccept(groupOfUsers -> runOnUiThread(() -> adapter.addAll(groupOfUsers)))
+                .exceptionally(UIUtil.defaultAPIErrorHandler(this));
     }
 
 }

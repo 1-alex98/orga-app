@@ -1,12 +1,10 @@
 package org.group_orga.grouporgaapp.api.oauth;
 
 import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface OrgaAPIOauthTemplate {
-    @FormUrlEncoded
     @POST("oauth/token")
-    Call<TokenResponse> getToken(@Field("grant_type")String token_type,@Field("username") String email,@Field("password")String password, @Field("client_id")String clientId,@Field("client_secret")String clientSecret);
+    Call<TokenResponse> getToken(@Query("grant_type") String token_type, @Query("username") String email, @Query("password")String password, @Query("client_id")String clientId, @Query("client_secret")String clientSecret);
 }
