@@ -107,6 +107,13 @@ public class OrgaAPIAccessor {
         return executeQueryAsync(service.getMe());
     }
 
+    public CompletableFuture<GroupOfUsers> createGroup(String name, String password) {
+        GroupOfUsers groupOfUsers = new GroupOfUsers();
+        groupOfUsers.setName(name);
+        groupOfUsers.setPassword(password);
+        return executeQueryAsync(service.postNewGroup(groupOfUsers));
+    }
+
     public static class APIException extends RuntimeException {
         private final Response response;
 

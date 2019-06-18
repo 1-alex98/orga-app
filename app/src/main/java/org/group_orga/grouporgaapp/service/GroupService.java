@@ -23,4 +23,8 @@ public class GroupService {
         String filter = String.format(Locale.US, "groupMemberShips.account.id==%s", id);
         return OrgaAPIAccessor.getInstance().getGroupsOfUsersWithFilter(filter);
     }
+
+    public CompletableFuture<GroupOfUsers> createGroup(String name,String password) {
+        return OrgaAPIAccessor.getInstance().createGroup(name, password);
+    }
 }
