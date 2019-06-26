@@ -17,4 +17,5 @@
     <string name="groupName">Group name</string>
     <string name="group_name">Group name</string>
     <string name="group_password">Group password</string>
+    <string name="title_activity_group_search">GroupSearchActivity</string>
 </resources>

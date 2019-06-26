@@ -26,4 +26,16 @@
         app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/searchGroupButton"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:onClick="createNewGroup"
+        android:src="@android:drawable/ic_search_category_default"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@+id/addGroupButton"
+        app:layout_constraintEnd_toEndOf="parent" />
 </android.support.constraint.ConstraintLayout>
