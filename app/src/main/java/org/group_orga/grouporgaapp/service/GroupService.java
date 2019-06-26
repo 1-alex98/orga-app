@@ -24,6 +24,11 @@ public class GroupService {
         return OrgaAPIAccessor.getInstance().getGroupsOfUsersWithFilter(filter);
     }
 
+    public CompletableFuture<List<GroupOfUsers>> getAllGroupsWithName(String searchName) {
+        String filter = String.format(Locale.US, "name==\"*%s*\"", searchName);
+        return OrgaAPIAccessor.getInstance().getGroupsOfUsersWithFilter(filter);
+    }
+
     public CompletableFuture<GroupOfUsers> createGroup(String name,String password) {
         return OrgaAPIAccessor.getInstance().createGroup(name, password);
     }

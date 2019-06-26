@@ -2,6 +2,7 @@ package org.group_orga.grouporgaapp.ui;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,6 +13,10 @@ import android.widget.ListView;
 import org.group_orga.grouporgaapp.R;
 import org.group_orga.grouporgaapp.service.GroupService;
 import org.group_orga.grouporgaapp.util.UIUtil;
+
+import java.util.Collections;
+
+import java8.util.Comparators;
 
 public class GroupsActivity extends AppCompatActivity {
 
@@ -34,6 +39,7 @@ public class GroupsActivity extends AppCompatActivity {
     private void refreshMyGroups() {
         GroupService.getInstance().getMyGroups()
                 .thenAccept(groupOfUsers -> runOnUiThread(() -> {
+                    Collections.sort(groupOfUsers, Comparators.comparing(groupOfUsers1 -> groupOfUsers1.getName()));
                     groupListViewAdapter.clear();
                     groupListViewAdapter.addAll(groupOfUsers);
                 }))
@@ -58,5 +64,10 @@ public class GroupsActivity extends AppCompatActivity {
                     refreshMyGroups();
                 }))
                 .exceptionally(UIUtil.defaultAPIErrorHandler(this));
+    }
+
+    public void startSearchActivity(View view) {
+        Intent intent = new Intent(this, GroupSearchActivity.class);
+        startActivity(intent);
     }
 }
